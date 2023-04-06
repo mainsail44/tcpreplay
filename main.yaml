@@ -1,0 +1,30 @@
+
+- name: TCPReplay Playbook
+  hosts: traffic_gen
+  become: true
+  roles:
+    - tcpreplay
+
+
+##########################
+###      Ansible       ###
+##########################
+#  Add your public key to remote server's ./ssh/authorized_keys file
+#  Then add your private key:
+#
+#    ssh-add ~/.ssh/id_rsa
+#
+#  Then run ansible -m ping to make sure it works
+#
+#    ansible -i inventory <Target_Host> -m ping
+#
+#     Dell_R750 | SUCCESS => {
+#       "ansible_facts": {
+#           "discovered_interpreter_python": "/usr/libexec/platform-python"
+#     },
+#     "changed": false,
+#     "ping": "pong"
+#     }
+#
+# USESAGE:
+# ansible-playbook -i inventory main.yaml

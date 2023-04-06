@@ -1,0 +1,46 @@
+---
+# tasks file for tcpreplay
+- name: Install the latest version TCPReplay
+  ansible.builtin.package:
+    name: tcpreplay
+    state: latest
+
+- name: Create directores for security-datasets
+  ansible.builtin.file:
+    path: "{{ dataset_install_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Copy over security-datasets
+  ansible.builtin.copy:
+    src: security-datasets.tar.gz
+    dest: "{{ dataset_install_dir }}"
+    owner: defender
+    group: defender
+    mode: "0644"
+
+- name: Unarchive security-datasets.tar.gz on the remote machine
+  ansible.builtin.unarchive:
+    src: "{{ dataset_install_dir }}/security-datasets.tar.gz"
+    dest: "{{ dataset_install_dir }}"
+    remote_src: yes
+
+- name: Print sample TCP Replay usage
+  ansible.builtin.debug:
+    msg:
+      - "####################################"
+      - "                                    "
+      - "   ██████ ██████  ██████   ██████   "
+      - "  ██           ██ ██   ██ ██    ██  "
+      - "  ██       █████  ██████  ██    ██  "
+      - "  ██           ██ ██      ██    ██  "
+      - "   ██████ ██████  ██       ██████   "
+      - "                                    "
+      - "####################################"
+      - ""
+      - "This system now has the default Security Onion Security-Dataset installed in {{ dataset_install_dir }}"
+      - "More examples at https://tcpreplay.appneta.com/"
+      - ""
+      - ""
+      - "Example Usage of TCPReplay:"
+      - "    sudo tcpreplay -i eno1 -tK --loop 5000 --unique-ip --verbose shellshock/exploit.pcap"
